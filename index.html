@@ -19,7 +19,7 @@
     .answer{width:100%;text-align:left;border:2px solid var(--line);border-radius:14px;padding:13px 16px;background:white;transition:.18s}
     .answer:hover{border-color:#679477;background:#f4f8ed}
     .answer.selected{border-color:var(--forest);background:#e8f2d9;font-weight:700}
-    button:focus-visible,select:focus-visible{outline:3px solid #d39329;outline-offset:3px}
+    button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #d39329;outline-offset:3px}
     .card{background:white;border:1px solid var(--line);border-radius:22px}
     .pill{display:inline-block;padding:5px 12px;border-radius:999px;background:#e8efdc;font-weight:700;font-size:.8rem;letter-spacing:.04em}
     .primary{background:var(--forest);color:white;border-radius:14px;padding:13px 22px;font-weight:700;min-height:48px}
@@ -27,28 +27,20 @@
     .feedback{min-height:24px;font-weight:600}
     .question{border-top:1px solid var(--line);padding-top:20px;margin-top:20px}
     .question:first-child{border-top:0;padding-top:0;margin-top:0}
-    .cover-photo{object-fit:cover;width:100%;height:100%}
     .developer-photo{object-fit:cover;object-position:center top;width:66px;height:66px;border-radius:14px;background:#d9e6cf}
-    .foto-bagian{
-      display:block;
-      width:100%;
-      max-height:430px;
-      object-fit:cover;
-      border-radius:20px;
-      margin:22px 0;
-    }
-    .foto-sampul{
-  display:block;
-  width:100%;
-  border-radius:0;
-  margin:0;
-  max-height:560px;
-  object-fit:cover;
-}
+    .foto-bagian{display:block;width:100%;max-height:430px;object-fit:cover;border-radius:20px;margin:22px 0}
+    .foto-sampul{display:block;width:100%;border-radius:0;margin:0;max-height:560px;object-fit:cover}
+    .tts-grid{display:grid;grid-template-columns:repeat(11,34px);gap:4px;width:max-content}
+    .tts-cell{position:relative;width:34px;height:34px}
+    .tts-cell.blank{visibility:hidden}
+    .tts-cell input{width:100%;height:100%;text-align:center;font-weight:700;text-transform:uppercase;border:2px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+    .tts-cell .num{position:absolute;top:1px;left:4px;font-size:.6rem;font-weight:800;color:#557064;pointer-events:none}
+    .tts-cell.correct input{border-color:#246344;background:#e8f2d9}
+    .tts-cell.wrong input{border-color:#92521d;background:#fbeedd}
+    @media(max-width:640px){.tts-grid{grid-template-columns:repeat(11,26px)}.tts-cell{width:26px;height:26px}.tts-cell .num{font-size:.5rem}}
     @media(min-width:1024px){.cover-grid{min-height:500px}}
     @media(prefers-reduced-motion:reduce){.stage.active{animation:none}*{scroll-behavior:auto!important}}
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
  </head>
  <body class="app-shell">
@@ -70,13 +62,14 @@
      <button type="button" class="nav-btn rounded-xl px-4 py-3 font-semibold" data-stage="materi">Materi pokok</button>
      <button type="button" class="nav-btn rounded-xl px-4 py-3 font-semibold" data-stage="simulasi">Simulasi</button>
      <button type="button" class="nav-btn rounded-xl px-4 py-3 font-semibold" data-stage="kuis">Kuis</button>
+     <button type="button" class="nav-btn rounded-xl px-4 py-3 font-semibold" data-stage="tts">Teka-teki silang</button>
      <button type="button" class="nav-btn rounded-xl px-4 py-3 font-semibold" data-stage="akhir">Asesmen akhir</button>
      <button type="button" class="nav-btn rounded-xl px-4 py-3 font-semibold" data-stage="refleksi">Refleksi</button>
     </div>
    </nav>
    <main id="main-content">
 
-       <!-- SAMPUL -->
+    <!-- SAMPUL -->
     <section id="cover" class="stage active" aria-labelledby="cover-title">
      <div class="overflow-hidden rounded-[28px] bg-[#174c3d] text-white">
       <div class="p-7 md:p-12">
@@ -164,12 +157,9 @@
        </article>
       </div>
       <img class="foto-bagian" src="materi-usaha-kecil.jpg" alt="Pelaku usaha kecil mengemas produk">
-      <div class="grid lg:grid-cols-2 gap-6 mt-7 items-center">
-       <div>
-        <h3 class="font-bold">Contoh penerapan: paket bekal sederhana</h3>
-        <p class="mt-3">Sejumlah teman ingin sarapan cepat sebelum praktik. Kamu menawarkan paket roti dan buah melalui pemesanan sehari sebelumnya. Tanyakan menu yang disukai, hitung biaya bahan dan kemasan, tetapkan harga wajar, lalu uji dengan beberapa pesanan. Catat tanggapan mereka sebelum memperluas penjualan.</p>
-       </div>
-       <div></div>
+      <div>
+       <h3 class="font-bold">Contoh penerapan: paket bekal sederhana</h3>
+       <p class="mt-3">Sejumlah teman ingin sarapan cepat sebelum praktik. Kamu menawarkan paket roti dan buah melalui pemesanan sehari sebelumnya. Tanyakan menu yang disukai, hitung biaya bahan dan kemasan, tetapkan harga wajar, lalu uji dengan beberapa pesanan. Catat tanggapan mereka sebelum memperluas penjualan.</p>
       </div>
       <div class="mt-7 rounded-2xl border-l-[6px] border-[#bd9a49] bg-[#faf4e5] p-5">
        <p class="font-bold">Ingat: kebutuhan nyata + kemampuan menyediakan solusi + calon pembeli + perhitungan biaya = peluang yang lebih masuk akal.</p>
@@ -185,38 +175,36 @@
       <h2 id="simulasi-title" class="mt-4 font-bold">Simulasi: rancang peluangmu</h2>
       <p class="mt-3">Pilih satu kebutuhan, sumber daya, dan cara menjangkau pembeli. Diskusikan apakah rancanganmu realistis.</p>
       <img class="foto-bagian" src="simulasi-ide.jpg" alt="Papan ide dengan catatan tempel">
-      <div class="grid lg:grid-cols-[1fr_1.3fr] gap-7 mt-6">
-       <form id="sim-form" class="grid gap-4 content-start">
-        <div>
-         <label for="sim-need" class="block font-bold mb-2">Kebutuhan yang kamu temukan</label>
-         <select id="sim-need" required class="w-full border-2 border-[#d6dfd2] rounded-xl p-3 bg-white">
-          <option value="">Pilih kebutuhan</option>
-          <option value="sarapan praktis untuk siswa">Sarapan praktis untuk siswa</option>
-          <option value="alat tulis saat kegiatan belajar">Alat tulis saat kegiatan belajar</option>
-          <option value="hadiah sederhana untuk teman">Hadiah sederhana untuk teman</option>
-         </select>
-        </div>
-        <div>
-         <label for="sim-resource" class="block font-bold mb-2">Sumber daya yang tersedia</label>
-         <select id="sim-resource" required class="w-full border-2 border-[#d6dfd2] rounded-xl p-3 bg-white">
-          <option value="">Pilih sumber daya</option>
-          <option value="keterampilan membuat makanan dan bahan lokal">Keterampilan membuat makanan dan bahan lokal</option>
-          <option value="akses pemasok alat tulis dan modal kecil">Akses pemasok alat tulis dan modal kecil</option>
-          <option value="keterampilan desain dan bahan kerajinan">Keterampilan desain dan bahan kerajinan</option>
-         </select>
-        </div>
-        <div>
-         <label for="sim-channel" class="block font-bold mb-2">Cara menjangkau pembeli</label>
-         <select id="sim-channel" required class="w-full border-2 border-[#d6dfd2] rounded-xl p-3 bg-white">
-          <option value="">Pilih cara</option>
-          <option value="pemesanan melalui grup kelas">Pemesanan melalui grup kelas</option>
-          <option value="penawaran langsung saat istirahat">Penawaran langsung saat istirahat</option>
-          <option value="katalog sederhana di media sosial">Katalog sederhana di media sosial</option>
-         </select>
-        </div>
-        <button type="submit" class="primary justify-self-start">Susun rancangan</button>
-       </form>
-      </div>
+      <form id="sim-form" class="grid gap-4 content-start">
+       <div>
+        <label for="sim-need" class="block font-bold mb-2">Kebutuhan yang kamu temukan</label>
+        <select id="sim-need" required class="w-full border-2 border-[#d6dfd2] rounded-xl p-3 bg-white">
+         <option value="">Pilih kebutuhan</option>
+         <option value="sarapan praktis untuk siswa">Sarapan praktis untuk siswa</option>
+         <option value="alat tulis saat kegiatan belajar">Alat tulis saat kegiatan belajar</option>
+         <option value="hadiah sederhana untuk teman">Hadiah sederhana untuk teman</option>
+        </select>
+       </div>
+       <div>
+        <label for="sim-resource" class="block font-bold mb-2">Sumber daya yang tersedia</label>
+        <select id="sim-resource" required class="w-full border-2 border-[#d6dfd2] rounded-xl p-3 bg-white">
+         <option value="">Pilih sumber daya</option>
+         <option value="keterampilan membuat makanan dan bahan lokal">Keterampilan membuat makanan dan bahan lokal</option>
+         <option value="akses pemasok alat tulis dan modal kecil">Akses pemasok alat tulis dan modal kecil</option>
+         <option value="keterampilan desain dan bahan kerajinan">Keterampilan desain dan bahan kerajinan</option>
+        </select>
+       </div>
+       <div>
+        <label for="sim-channel" class="block font-bold mb-2">Cara menjangkau pembeli</label>
+        <select id="sim-channel" required class="w-full border-2 border-[#d6dfd2] rounded-xl p-3 bg-white">
+         <option value="">Pilih cara</option>
+         <option value="pemesanan melalui grup kelas">Pemesanan melalui grup kelas</option>
+         <option value="penawaran langsung saat istirahat">Penawaran langsung saat istirahat</option>
+         <option value="katalog sederhana di media sosial">Katalog sederhana di media sosial</option>
+        </select>
+       </div>
+       <button type="submit" class="primary justify-self-start">Susun rancangan</button>
+      </form>
       <div id="sim-result" class="hidden mt-6 rounded-2xl bg-[#eaf1e0] p-6" aria-live="polite">
        <h3 class="font-bold">Rancangan peluang usahamu</h3>
        <p id="sim-output" class="mt-3"></p>
@@ -259,14 +247,40 @@
        </div>
        <p class="feedback mt-3" aria-live="polite"></p>
       </div>
-      <button type="button" data-next="akhir" class="primary mt-8">Lanjut ke asesmen akhir →</button>
+      <button type="button" data-next="tts" class="primary mt-8">Lanjut ke teka-teki silang →</button>
+     </div>
+    </section>
+
+    <!-- TEKA-TEKI SILANG -->
+    <section id="tts" class="stage" aria-labelledby="tts-title">
+     <div class="card p-6 md:p-10">
+      <span class="pill">06 · 10 MENIT</span>
+      <h2 id="tts-title" class="mt-4 font-bold">Teka-teki silang: uji kosakatamu</h2>
+      <p class="mt-3">Isi setiap kotak dengan satu huruf. Gunakan petunjuk mendatar dan menurun. Semua kata berkaitan dengan materi peluang usaha.</p>
+      <div class="mt-6 overflow-x-auto pb-2"><div id="tts-grid" class="tts-grid"></div></div>
+      <div class="grid md:grid-cols-2 gap-6 mt-6">
+       <div>
+        <h3 class="font-bold">Mendatar</h3>
+        <ol id="tts-mendatar" class="mt-2 grid gap-2 list-none"></ol>
+       </div>
+       <div>
+        <h3 class="font-bold">Menurun</h3>
+        <ol id="tts-menurun" class="mt-2 grid gap-2 list-none"></ol>
+       </div>
+      </div>
+      <p id="tts-feedback" class="feedback mt-5" aria-live="polite"></p>
+      <div class="flex flex-wrap gap-3 mt-4">
+       <button type="button" id="tts-check" class="primary">Periksa jawaban</button>
+       <button type="button" id="tts-reveal" class="nav-btn rounded-xl px-5 py-3 font-semibold">Lihat jawaban</button>
+      </div>
+      <button type="button" data-next="akhir" class="primary mt-7">Lanjut ke asesmen akhir →</button>
      </div>
     </section>
 
     <!-- ASESMEN AKHIR -->
     <section id="akhir" class="stage" aria-labelledby="akhir-title">
      <div class="card p-6 md:p-10">
-      <span class="pill">06 · 8 MENIT</span>
+      <span class="pill">07 · 8 MENIT</span>
       <h2 id="akhir-title" class="mt-4 font-bold">Asesmen akhir</h2>
       <p class="mt-3">Jawab kelima soal. Skor dan pembahasan muncul setelah semua soal dijawab.</p>
       <div class="question" data-group="akhir" data-answer="0" data-explain="Peluang usaha menghubungkan kebutuhan dengan solusi yang berpotensi layak dijalankan.">
@@ -328,7 +342,7 @@
     <!-- REFLEKSI -->
     <section id="refleksi" class="stage" aria-labelledby="refleksi-title">
      <div class="card p-6 md:p-10">
-      <span class="pill">07 · 2 MENIT</span>
+      <span class="pill">08 · 2 MENIT</span>
       <h2 id="refleksi-title" class="mt-4 font-bold">Refleksi &amp; langkah selanjutnya</h2>
       <p class="mt-4">Seberapa siap kamu menemukan peluang usaha di sekitarmu? Pilih satu jawaban, lalu ceritakan alasannya kepada teman atau guru.</p>
       <div class="flex flex-wrap gap-3 mt-6">
@@ -424,6 +438,101 @@
       document.querySelectorAll('[data-reflection]').forEach(other => other.classList.toggle('selected', other === button));
       document.getElementById('reflection-response').textContent = reflectionMessages[button.dataset.reflection];
     }));
+  </script>
+
+  <script>
+    /* ===== TEKA-TEKI SILANG ===== */
+    (function(){
+      const WORDS=[
+        {n:1,dir:'M',word:'KREATIF',row:0,col:4,clue:'Sifat berpikir yang menghasilkan gagasan baru dan berbeda.'},
+        {n:2,dir:'M',word:'BIAYA',row:2,col:4,clue:'Pengeluaran yang harus dihitung sebelum menetapkan harga jual.'},
+        {n:3,dir:'M',word:'UNTUNG',row:4,col:2,clue:'Selisih lebih antara harga jual dan modal yang dikeluarkan.'},
+        {n:4,dir:'M',word:'USAHA',row:6,col:1,clue:'Kegiatan menghasilkan produk atau layanan untuk orang lain.'},
+        {n:5,dir:'M',word:'INOVASI',row:8,col:3,clue:'Pembaruan ide agar berbeda dari penawaran pesaing.'},
+        {n:1,dir:'V',word:'KEBUTUHAN',row:0,col:4,clue:'Sesuatu yang diperlukan orang lain; titik awal setiap peluang usaha.'}
+      ];
+      const ROWS=9,COLS=11;
+      const gridEl=document.getElementById('tts-grid');
+      const cells={};
+      for(let r=0;r<ROWS;r++){
+        for(let c=0;c<COLS;c++){
+          const d=document.createElement('div');
+          d.className='tts-cell blank';
+          gridEl.appendChild(d);
+          cells[r+','+c]=d;
+        }
+      }
+      const starts={};
+      WORDS.forEach(w=>{
+        for(let i=0;i<w.word.length;i++){
+          const r=(w.dir==='M')?w.row:w.row+i;
+          const c=(w.dir==='M')?w.col+i:w.col;
+          const cell=cells[r+','+c];
+          cell.classList.remove('blank');
+          if(!cell.dataset.letter){
+            cell.dataset.letter=w.word[i];
+            cell.innerHTML='<input maxlength="1" aria-label="Huruf baris '+(r+1)+' kolom '+(c+1)+'">';
+          }
+          if(i===0){starts[r+','+c]=starts[r+','+c]||w.n;}
+        }
+      });
+      Object.keys(starts).forEach(k=>{
+        const s=document.createElement('span');
+        s.className='num';
+        s.textContent=starts[k];
+        cells[k].appendChild(s);
+      });
+      const mEl=document.getElementById('tts-mendatar'),vEl=document.getElementById('tts-menurun');
+      WORDS.forEach(w=>{
+        const li=document.createElement('li');
+        li.textContent=w.n+'. '+w.clue+' ('+w.word.length+' huruf)';
+        (w.dir==='M'?mEl:vEl).appendChild(li);
+      });
+      function wordCorrect(w){
+        for(let i=0;i<w.word.length;i++){
+          const r=(w.dir==='M')?w.row:w.row+i;
+          const c=(w.dir==='M')?w.col+i:w.col;
+          const inp=cells[r+','+c].querySelector('input');
+          if(!inp||inp.value.toUpperCase()!==w.word[i])return false;
+        }
+        return true;
+      }
+      document.getElementById('tts-check').addEventListener('click',()=>{
+        let ok=0;
+        WORDS.forEach(w=>{
+          const good=wordCorrect(w);
+          if(good)ok++;
+          for(let i=0;i<w.word.length;i++){
+            const r=(w.dir==='M')?w.row:w.row+i;
+            const c=(w.dir==='M')?w.col+i:w.col;
+            const cell=cells[r+','+c];
+            const val=cell.querySelector('input').value;
+            cell.classList.toggle('correct',good);
+            cell.classList.toggle('wrong',!good&&val!=='');
+          }
+        });
+        const fb=document.getElementById('tts-feedback');
+        if(ok===WORDS.length){
+          fb.textContent='Hebat! Semua kata benar. Kosakatamu tentang peluang usaha sudah kuat.';
+          fb.style.color='#246344';
+        }else{
+          fb.textContent='Kata benar: '+ok+' dari '+WORDS.length+'. Perbaiki kotak berwarna oranye lalu coba lagi.';
+          fb.style.color='#92521d';
+        }
+      });
+      document.getElementById('tts-reveal').addEventListener('click',()=>{
+        Object.values(cells).forEach(cell=>{
+          if(cell.dataset.letter){
+            cell.querySelector('input').value=cell.dataset.letter;
+            cell.classList.add('correct');
+            cell.classList.remove('wrong');
+          }
+        });
+        const fb=document.getElementById('tts-feedback');
+        fb.textContent='Jawaban ditampilkan. Jadikan bahan belajar, lalu kosongkan kotak dan coba ulang.';
+        fb.style.color='#174c3d';
+      });
+    })();
   </script>
  </body>
 </html>
